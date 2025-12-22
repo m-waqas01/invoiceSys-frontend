@@ -13,7 +13,7 @@ const Dashboard = () => {
   useEffect(() => {
     const fetchReports = async () => {
       try {
-        const res = await getDashboardReports(); // ✅ FIXED
+        const res = await getDashboardReports(); 
         setReports(res.data);
       } catch (err) {
         console.error("Dashboard report error:", err);
