@@ -2,31 +2,30 @@ import { useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import { login } from "../../api/authApi";
 
-const Login = () => {
+const Login = ({ setToken }) => {
   const navigate = useNavigate();
 
   const [form, setForm] = useState({ email: "", password: "" });
   const [error, setError] = useState("");
-  const [success, setSuccess] = useState("");
   const [loading, setLoading] = useState(false);
 
   const submitHandler = async (e) => {
     e.preventDefault();
     setError("");
-    setSuccess("");
     setLoading(true);
 
     try {
       const res = await login(form);
 
+      // ✅ Store auth data
       localStorage.setItem("user", JSON.stringify(res.data.user));
       localStorage.setItem("token", res.data.token);
 
-      setSuccess("Login successful! Redirecting to dashboard...");
+      // 🔥 IMPORTANT: update app state
+      setToken(res.data.token);
 
-      setTimeout(() => {
-        navigate("/"); // Dashboard
-      }, 1200);
+      // ✅ Instant navigation
+      navigate("/", { replace: true });
     } catch (err) {
       setError(err.response?.data?.message || "Invalid email or password");
     } finally {
@@ -37,7 +36,6 @@ const Login = () => {
   return (
     <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-blue-100 via-indigo-100 to-purple-200 px-4">
       <div className="bg-white p-8 rounded-xl shadow-xl w-full max-w-md">
-        {/* Header */}
         <h2 className="text-3xl font-bold text-center text-gray-800 mb-2">
           Welcome Back
         </h2>
@@ -45,21 +43,12 @@ const Login = () => {
           Login to manage your invoices
         </p>
 
-        {/* Error */}
         {error && (
           <div className="bg-red-100 border border-red-300 text-red-600 p-3 rounded mb-4 text-sm text-center">
             {error}
           </div>
         )}
 
-        {/* Success */}
-        {success && (
-          <div className="bg-green-100 border border-green-300 text-green-600 p-3 rounded mb-4 text-sm text-center">
-            {success}
-          </div>
-        )}
-
-        {/* Form */}
         <form onSubmit={submitHandler} className="space-y-4">
           <div>
             <label className="block text-sm text-gray-600 mb-1">
@@ -101,7 +90,6 @@ const Login = () => {
           </button>
         </form>
 
-        {/* Footer */}
         <p className="text-center text-gray-600 mt-6 text-sm">
           Don’t have an account?{" "}
           <Link
