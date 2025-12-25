@@ -12,15 +12,18 @@ import InvoiceFormPage from "./pages/InvoiceFormPage";
 import InvoiceView from "./pages/InvoiceView";
 
 function App() {
-  const [token, setToken] = useState(null);
+  const [token, setToken] = useState(localStorage.getItem("token"));
 
   return (
     <Routes>
       {/* Public Routes */}
-      <Route path="/login" element={<Login setToken={setToken} />} />
+      <Route
+        path="/login"
+        element={!token ? <Login setToken={setToken} /> : <Navigate to="/" />}
+      />
       <Route
         path="/signup"
-        element={!token ? <Signup /> : <Navigate to="/" replace />}
+        element={!token ? <Signup /> : <Navigate to="/" />}
       />
 
       {/* Protected Routes */}
@@ -40,7 +43,7 @@ function App() {
               </Routes>
             </Layout>
           ) : (
-            <Navigate to="/login" replace />
+            <Navigate to="/login" />
           )
         }
       />
