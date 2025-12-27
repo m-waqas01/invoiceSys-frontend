@@ -35,36 +35,84 @@ const Signup = () => {
         )}
 
         <form onSubmit={submitHandler} className="space-y-4">
-          <input
-            type="text"
-            placeholder="Full Name"
-            className="input"
-            value={form.name}
-            onChange={(e) => setForm({ ...form, name: e.target.value })}
-            required
-          />
+          <div className="space-y-4">
+            {/* Full Name */}
+            <div className="space-y-1">
+              <label className="block text-sm font-medium text-gray-700">
+                Full Name
+              </label>
+              <input
+                type="text"
+                placeholder="John Doe"
+                value={form.name}
+                onChange={(e) => setForm({ ...form, name: e.target.value })}
+                required
+                className="
+        w-full px-4 py-2.5 rounded-lg
+        border border-gray-300
+        text-gray-800 placeholder-gray-400
+        focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-green-500
+        transition duration-200
+      "
+              />
+            </div>
 
-          <input
-            type="email"
-            placeholder="Email"
-            className="input"
-            value={form.email}
-            onChange={(e) => setForm({ ...form, email: e.target.value })}
-            required
-          />
+            {/* Email */}
+            <div className="space-y-1">
+              <label className="block text-sm font-medium text-gray-700">
+                Email Address
+              </label>
+              <input
+                type="email"
+                placeholder="you@example.com"
+                value={form.email}
+                onChange={(e) => setForm({ ...form, email: e.target.value })}
+                required
+                className="
+        w-full px-4 py-2.5 rounded-lg
+        border border-gray-300
+        text-gray-800 placeholder-gray-400
+        focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-green-500
+        transition duration-200
+      "
+              />
+            </div>
 
-          <input
-            type="password"
-            placeholder="Password"
-            className="input"
-            value={form.password}
-            onChange={(e) => setForm({ ...form, password: e.target.value })}
-            required
-          />
+            {/* Password */}
+            <div className="space-y-1">
+              <label className="block text-sm font-medium text-gray-700">
+                Password
+              </label>
+              <input
+                type="password"
+                placeholder="••••••••"
+                value={form.password}
+                onChange={(e) => setForm({ ...form, password: e.target.value })}
+                required
+                className="
+        w-full px-4 py-2.5 rounded-lg
+        border border-gray-300
+        text-gray-800 placeholder-gray-400
+        focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-green-500
+        transition duration-200
+      "
+              />
+            </div>
 
-          <button className="btn-primary w-full bg-green-600 hover:bg-green-700">
-            Sign Up
-          </button>
+            {/* Button */}
+            <button
+              type="submit"
+              className="
+      w-full py-2.5 rounded-lg
+      bg-green-600 text-white font-semibold
+      hover:bg-green-700
+      focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-2
+      transition duration-200
+    "
+            >
+              Sign Up
+            </button>
+          </div>
         </form>
 
         <p className="text-center text-gray-600 mt-4">

@@ -73,7 +73,7 @@ const Reports = () => {
 
       {/* Outstanding Invoices */}
       <div className="bg-white shadow rounded-xl overflow-x-auto">
-        <h3 className="text-lg font-semibold mb-4">Outstanding Invoices</h3>
+        <h3 className="text-lg font-semibold mb-4 p-6">Outstanding Invoices</h3>
         {outstanding.length === 0 ? (
           <p className="text-gray-500">No outstanding invoices</p>
         ) : (
