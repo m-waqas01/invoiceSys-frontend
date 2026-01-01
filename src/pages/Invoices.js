@@ -66,28 +66,33 @@ const Invoices = () => {
   );
 
   return (
-    <div className="p-6 bg-gray-100 min-h-screen">
+    <div className="p-6 bg-gradient-to-br from-gray-100 to-gray-200 min-h-screen">
       {/* Header */}
-      <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-6 gap-4">
-        <h2 className="text-2xl font-bold">Invoices</h2>
+      <div className="flex flex-col md:flex-row justify-between items-center mb-6">
+        <div>
+          <h2 className="text-3xl font-bold text-gray-800">Invoices</h2>
+          <p className="text-sm text-gray-500">Manage and track all invoices</p>
+        </div>
+
         <button
           onClick={() => navigate("/invoices/new")}
-          className="bg-indigo-600 hover:bg-indigo-700 text-white font-semibold px-4 py-2 rounded shadow"
+          className="mt-4 md:mt-0 bg-indigo-600 hover:bg-indigo-700 text-white font-semibold px-5 py-2.5 rounded-lg shadow-lg transition"
         >
-          + New Invoice
+          + Create Invoice
         </button>
       </div>
 
       {/* Filters */}
-      <div className="bg-white p-4 rounded shadow mb-4 flex flex-col md:flex-row gap-4 items-center">
+      <div className="bg-white p-4 rounded-xl shadow mb-6 flex flex-col md:flex-row gap-4">
         <input
-          placeholder="Search invoice / client"
-          className="input flex-1 border-gray-300 rounded-md p-2"
+          placeholder="🔍 Search invoice or client"
+          className="flex-1 border border-gray-300 rounded-lg px-4 py-2 focus:ring-2 focus:ring-indigo-500"
           value={search}
           onChange={(e) => setSearch(e.target.value)}
         />
+
         <select
-          className="input w-48 border-gray-300 rounded-md p-2"
+          className="w-full md:w-52 border border-gray-300 rounded-lg px-4 py-2 focus:ring-2 focus:ring-indigo-500"
           value={status}
           onChange={(e) => setStatus(e.target.value)}
         >
@@ -101,26 +106,28 @@ const Invoices = () => {
       </div>
 
       {/* Table */}
-      <div className="bg-white shadow rounded overflow-x-auto">
-        <table className="w-full text-sm min-w-max">
-          <thead className="bg-gray-200">
+      <div className="bg-white rounded-xl shadow overflow-hidden">
+        <table className="w-full text-sm">
+          <thead className="bg-indigo-50 text-gray-700 uppercase text-xs">
             <tr>
-              <th className="p-3 text-left">Invoice #</th>
+              <th className="p-4 text-left">Invoice</th>
               <th className="text-left">Client</th>
               <th>Status</th>
               <th>Total</th>
               <th>Due Date</th>
-              <th className="text-right p-3">Actions</th>
+              <th className="p-4 text-right">Actions</th>
             </tr>
           </thead>
+
           <tbody>
             {loading && (
               <tr>
                 <td colSpan="6" className="text-center p-6 text-gray-500">
-                  Loading...
+                  Loading invoices...
                 </td>
               </tr>
             )}
+
             {!loading && filteredInvoices.length === 0 && (
               <tr>
                 <td colSpan="6" className="text-center p-6 text-gray-500">
@@ -131,54 +138,61 @@ const Invoices = () => {
 
             {!loading &&
               filteredInvoices.map((inv) => (
-                <tr key={inv._id} className="border-b hover:bg-gray-50">
-                  <td className="p-3">{inv.invoiceNumber}</td>
+                <tr
+                  key={inv._id}
+                  className="border-b hover:bg-gray-50 transition"
+                >
+                  <td className="p-4 font-medium">{inv.invoiceNumber}</td>
                   <td>{inv.client?.name}</td>
+
                   <td>
                     <span
-                      className={`px-2 py-1 rounded text-xs font-medium ${
+                      className={`px-3 py-1 rounded-full text-xs font-semibold ${
                         inv.status === "paid"
-                          ? "bg-green-100 text-green-600"
+                          ? "bg-green-100 text-green-700"
                           : inv.status === "partial"
-                          ? "bg-yellow-100 text-yellow-600"
+                          ? "bg-yellow-100 text-yellow-700"
                           : inv.status === "overdue"
-                          ? "bg-red-100 text-red-600"
+                          ? "bg-red-100 text-red-700"
                           : "bg-gray-100 text-gray-600"
                       }`}
                     >
                       {inv.status}
                     </span>
                   </td>
-                  <td>${inv.total.toFixed(2)}</td>
+
+                  <td className="font-semibold text-gray-800">
+                    ${inv.total.toFixed(2)}
+                  </td>
+
                   <td>
                     {inv.dueDate
                       ? new Date(inv.dueDate).toLocaleDateString()
                       : "-"}
                   </td>
-                  <td className="p-3 text-right flex flex-wrap justify-end gap-2">
+
+                  <td className="p-4 text-right space-x-3">
                     <button
                       onClick={() => navigate(`/invoices/${inv._id}`)}
-                      className="text-blue-600 text-sm hover:underline"
+                      className="text-blue-600 hover:underline"
                     >
                       View
                     </button>
                     <button
                       onClick={() => exportInvoicePDF(inv._id)}
-                      className="text-purple-600 text-sm"
+                      className="text-purple-600 hover:underline"
                     >
                       PDF
                     </button>
-
                     <button
                       onClick={() => handleSendEmail(inv._id)}
-                      className="text-green-600 text-sm"
+                      className="text-green-600 hover:underline"
                     >
                       Email
                     </button>
-
                     <button
                       onClick={() => handleDelete(inv._id)}
-                      className="text-red-500 text-sm"
+                      className="text-red-600 hover:underline"
                     >
                       Delete
                     </button>
